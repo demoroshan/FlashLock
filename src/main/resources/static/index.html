@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashLock | India's Mega Flash Sale Marketplace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amz: {
+                            header: '#131921',
+                            subnav: '#232f3e',
+                            yellow: '#febd69',
+                            orange: '#f08804',
+                            btn: '#ffd814',
+                            btnHover: '#f7ca00',
+                            buyNow: '#ffa41c',
+                            buyNowHover: '#fa8900',
+                            link: '#007185',
+                            prime: '#00a8e1'
+                        },
+                        fk: {
+                            blue: '#2874f0',
+                            yellow: '#ffe500',
+                            dark: '#172337',
+                            bg: '#f1f3f6',
+                            green: '#388e3c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f1f3f6;
+        }
+        .font-mono-code {
+            font-family: monospace;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fk-assured-badge {
+            background: #2874f0;
+            color: #fff;
+            font-style: italic;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col antialiased">
+
+<!-- ================= 1. AMAZON/FLIPKART STYLE TOP HEADER ================= -->
+<header class="sticky top-0 z-50 shadow-md">
+    <!-- Top Dark Bar -->
+    <div class="bg-amz-header text-white px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3 text-xs">
+
+        <!-- Logo + Delivery Location -->
+        <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="resetToHome()">
+            <div class="flex items-center space-x-1.5">
+          <span class="text-2xl font-black tracking-tight text-white flex items-center">
+            Flash<span class="text-amz-yellow">Lock</span>
+          </span>
+                <span class="text-[10px] font-bold text-amz-yellow border border-amz-yellow/60 rounded px-1 py-0.2">.in</span>
+            </div>
+            <div class="hidden lg:flex flex-col text-[11px] leading-tight text-slate-300 hover:text-white border border-transparent hover:border-slate-500 rounded p-1 cursor-pointer">
+                <span class="text-slate-400 text-[10px] flex items-center gap-0.5"><i data-lucide="map-pin" class="w-3 h-3 text-amz-yellow"></i> Deliver to</span>
+                <span class="font-bold text-white">India, 627859</span>
+            </div>
+        </div>
+
+        <!-- Center Search Bar -->
+        <div class="flex-1 max-w-3xl flex items-center">
+            <div class="w-full flex rounded-md overflow-hidden shadow-inner focus-within:ring-2 focus-within:ring-amz-orange bg-white">
+                <select id="headerCategorySelect" onchange="handleSelectCategory(this.value)" class="hidden md:block bg-slate-100 text-slate-700 text-xs px-3 py-2 border-r border-slate-300 focus:outline-none cursor-pointer max-w-[130px] font-medium">
+                    <option value="all">All 1,000 Items</option>
+                </select>
+                <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search across 1,000 products (e.g. pressure cooker, rice, mobile, shoes, toothbrush)..."
+                        oninput="handleSearch(this.value)"
+                        class="flex-1 px-3 py-2 text-slate-800 text-sm focus:outline-none"
+                >
+                <button onclick="triggerSearchFocus()" class="bg-amz-yellow hover:bg-amz-btnHover px-4 text-slate-900 transition flex items-center justify-center font-bold">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Navigation Actions -->
+        <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
+
+            <!-- Offers Hub Button -->
+            <button onclick="openOffersModal()" class="flex items-center space-x-1 hover:border border-slate-500 rounded p-1.5 transition text-amz-yellow">
+                <i data-lucide="percent" class="w-4 h-4 text-amz-yellow"></i>
+                <span class="hidden md:inline font-bold">Coupons</span>
+            </button>
+
+            <!-- User Account / Sign In Dropdown Trigger -->
+            <button onclick="openAuthModal()" class="flex flex-col text-left hover:border border-slate-500 rounded p-1.5 transition leading-tight">
+                <span id="navAccountSubtext" class="text-[10px] text-slate-400">Hello, Sign in</span>
+                <span id="navAccountTitle" class="font-bold text-white flex items-center gap-1">
+            <span>Account & Lists</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+          </span>
+            </button>
+
+            <!-- Orders & Returns -->
+            <button onclick="toggleOrdersPanel()" class="flex flex-col text-left hover:border border-slate-500 rounded p-1.5 transition leading-tight">
+                <span class="text-[10px] text-slate-400">Returns</span>
+                <span class="font-bold text-white flex items-center gap-1">
+            & Orders
+            <span id="orderHistoryCount" class="w-4 h-4 rounded-full bg-amz-orange text-slate-950 text-[10px] flex items-center justify-center font-extrabold">0</span>
+          </span>
+            </button>
+
+            <!-- Shopping Cart Trigger -->
+            <button onclick="toggleCartDrawer(true)" class="flex items-center space-x-1.5 hover:border border-slate-500 rounded px-2.5 py-1.5 transition">
+                <div class="relative">
+                    <i data-lucide="shopping-cart" class="w-6 h-6 text-white"></i>
+                    <span id="cartBadgeCount" class="absolute -top-1.5 -right-2 bg-amz-orange text-slate-950 font-black text-xs rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center">0</span>
+                </div>
+                <span class="hidden sm:inline font-bold text-sm text-white">Cart</span>
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Sub-Navbar (Amazon Navy Bar with Department Links) -->
+    <div class="bg-amz-subnav text-white px-3 sm:px-6 py-1.5 flex items-center justify-between text-xs overflow-x-auto no-scrollbar gap-4">
+        <div class="flex items-center space-x-4 shrink-0">
+            <button onclick="openAllCategoriesModal()" class="flex items-center space-x-1.5 font-bold hover:text-amz-yellow transition">
+                <i data-lucide="menu" class="w-4 h-4"></i>
+                <span>All 25 Categories</span>
+            </button>
+            <button onclick="setCategoryFilter('all')" class="hover:text-amz-yellow font-medium">All 1,000 Products</button>
+            <button onclick="setCategoryFilter('low')" class="text-amz-yellow font-bold flex items-center gap-1">
+                <i data-lucide="flame" class="w-3.5 h-3.5 fill-amz-yellow text-amz-yellow"></i>
+                <span>Lightning Deals</span>
+            </button>
+            <button onclick="setCategoryFilter('kitchen')" class="hover:text-amz-yellow hidden md:inline">Kitchen</button>
+            <button onclick="setCategoryFilter('electronics')" class="hover:text-amz-yellow hidden md:inline">Mobiles & Laptops</button>
+            <button onclick="setCategoryFilter('clothing')" class="hover:text-amz-yellow hidden md:inline">Fashion</button>
+            <button onclick="setCategoryFilter('grocery')" class="hover:text-amz-yellow hidden lg:inline">Grocery & Food</button>
+            <button onclick="setCategoryFilter('smart_home')" class="hover:text-amz-yellow hidden lg:inline">Smart Home</button>
+        </div>
+
+        <div class="flex items-center space-x-3 shrink-0 text-[11px] font-semibold text-slate-300">
+        <span class="bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i> Optimistic Lock (OCC) Active
+        </span>
+            <span class="text-amz-yellow font-mono font-bold" id="headerTimer">Deal ends in: 00:14:59</span>
+        </div>
+    </div>
+</header>
+
+<!-- ================= 2. FLIPKART STYLE HORIZONTAL CATEGORY ICONS STRIP ================= -->
+<section class="bg-white border-b border-slate-200 shadow-sm py-2 px-3 sm:px-6">
+    <div class="max-w-7xl mx-auto flex items-center space-x-2 sm:space-x-3 overflow-x-auto no-scrollbar" id="categoryIconStrip">
+        <!-- 25 Categories injected by JS -->
+    </div>
+</section>
+
+<!-- ================= 3. PROMO TICKER BANNER ================= -->
+<div class="bg-gradient-to-r from-amz-orange via-amber-500 to-yellow-500 text-slate-950 font-bold px-4 py-2 text-xs shadow-inner">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center space-x-2">
+            <span class="bg-black text-white px-2 py-0.5 rounded text-[10px] uppercase font-extrabold tracking-wider">Mega Sale</span>
+            <span>Get Extra 10% OFF with code <span class="bg-white px-1.5 py-0.5 rounded font-mono text-red-600 font-extrabold">FESTIVE10</span> + ₹250 instant cashback with Swagger Pay!</span>
+        </div>
+        <div class="flex items-center space-x-2 text-[11px]">
+            <span>⚡ Free delivery on orders over ₹2,000</span>
+            <span class="text-slate-800">|</span>
+            <span class="underline cursor-pointer" onclick="openOffersModal()">View All 3 Offers</span>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 4. MAIN CONTENT AREA (PRODUCT GRID) ================= -->
+<main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 flex-1 w-full">
+
+    <!-- Active Filter Bar & Results Header -->
+    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+            <div class="flex items-center space-x-2">
+                <h1 id="activeCategoryHeading" class="text-lg sm:text-xl font-bold text-slate-900">All 1,000 Everyday Products</h1>
+                <span class="fk-assured-badge text-[10px] px-1.5 py-0.5 rounded tracking-wide shadow-sm">⚡ F-Assured</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Real-time inventory deduction with Spring Boot Optimistic Locking & automatic restock rollback.</p>
+        </div>
+
+        <!-- Quick Sorting / Badge stats -->
+        <div class="flex items-center space-x-3 text-xs">
+            <span class="text-slate-500">Showing <strong id="matchedCountLabel" class="text-slate-800 font-bold">20</strong> of <strong class="text-slate-800">1,000</strong> items</span>
+            <select id="sortSelect" onchange="handleSortChange(this.value)" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-xs text-slate-700 font-medium focus:outline-none cursor-pointer">
+                <option value="featured">Featured / Recommended</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="stock-low">Stock: Low to High</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Product Card Grid -->
+    <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+        <!-- Product Cards Populated by JS -->
+    </div>
+
+    <!-- Load More Button -->
+    <div id="loadMoreSection" class="mt-8 text-center bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+        <p id="showingItemsCount" class="text-xs text-slate-600 mb-3 font-medium">Showing 20 of 1,000 items</p>
+        <button id="loadMoreBtn" onclick="loadMoreProducts()" class="bg-amz-yellow hover:bg-amz-btnHover border border-amber-500 text-slate-900 px-8 py-2.5 rounded-lg text-xs font-bold transition shadow-sm inline-flex items-center space-x-2">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            <span>Show More Deals</span>
+        </button>
+    </div>
+
+</main>
+
+<!-- ================= 5. CART DRAWER ================= -->
+<div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0" onclick="toggleCartDrawer(false)"></div>
+<div id="cartDrawer" class="fixed right-0 top-0 bottom-0 w-full sm:w-[460px] bg-white border-l border-slate-300 z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-2xl">
+
+    <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-amz-header text-white">
+        <div class="flex items-center space-x-2">
+            <i data-lucide="shopping-cart" class="w-5 h-5 text-amz-yellow"></i>
+            <div>
+                <h3 class="text-sm font-bold text-white">Shopping Cart</h3>
+                <p class="text-[11px] text-slate-300">Items reserved under OCC concurrency</p>
+            </div>
+        </div>
+        <button onclick="toggleCartDrawer(false)" class="text-slate-300 hover:text-white p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- Free Delivery Progress Bar -->
+    <div class="px-4 py-2.5 bg-emerald-50 border-b border-emerald-100 text-xs">
+        <div class="flex justify-between font-semibold mb-1 text-slate-700">
+            <span id="shippingStatusText">Add ₹2,000 for FREE Delivery</span>
+            <span id="shippingBarPercent" class="text-emerald-700 font-bold">0%</span>
+        </div>
+        <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div id="shippingProgressBar" class="h-full bg-emerald-600 transition-all duration-300" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Cart Items Scroll List -->
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50"></div>
+
+    <!-- Promo Coupon Input -->
+    <div class="p-4 bg-white border-t border-slate-200">
+        <div class="flex items-center space-x-2">
+            <input id="couponInput" type="text" placeholder="Promo code (FESTIVE10)" class="flex-1 border border-slate-300 rounded px-3 py-1.5 text-xs uppercase font-mono-code focus:outline-none focus:border-amz-orange">
+            <button onclick="applyCoupon()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-1.5 rounded text-xs transition">Apply</button>
+        </div>
+        <div id="appliedPromoBanner" class="hidden mt-2 p-1.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex justify-between items-center">
+            <span id="appliedPromoText" class="font-bold">PROMO: FESTIVE10 (-10%)</span>
+            <button onclick="removeCoupon()" class="text-red-600 hover:underline text-[11px] font-bold">Remove</button>
+        </div>
+    </div>
+
+    <!-- Cart Totals & Checkout Button -->
+    <div class="p-4 border-t border-slate-200 bg-white space-y-3">
+        <div class="space-y-1 text-xs text-slate-600">
+            <div class="flex justify-between">
+                <span>Items Subtotal:</span>
+                <span id="cartSubtotal" class="font-bold text-slate-900">₹0</span>
+            </div>
+            <div class="flex justify-between text-emerald-700">
+                <span>Discount:</span>
+                <span id="cartDiscount" class="font-bold">-₹0</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Delivery Charges:</span>
+                <span id="cartShippingFee" class="text-slate-900 font-medium">₹149</span>
+            </div>
+            <div class="border-t border-slate-200 pt-2 flex justify-between text-base font-extrabold text-slate-950">
+                <span>Total Payable:</span>
+                <span id="cartTotal" class="text-red-700">₹0</span>
+            </div>
+        </div>
+
+        <button id="checkoutButton" onclick="openCheckoutModal()" class="w-full py-2.5 rounded-lg bg-amz-btn hover:bg-amz-btnHover border border-amber-500 text-slate-950 font-bold text-sm shadow transition flex items-center justify-center space-x-2">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>Proceed to Buy</span>
+        </button>
+    </div>
+
+</div>
+
+<!-- ================= 6. CHECKOUT & PAYMENT MODAL ================= -->
+<div id="checkoutModalBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-xl bg-white rounded-xl shadow-2xl border border-slate-300 overflow-hidden my-6">
+
+        <div class="p-4 bg-amz-header text-white flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="shield-check" class="w-5 h-5 text-amz-yellow"></i>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Select a delivery & payment option</h3>
+                    <p class="text-[11px] text-slate-300">FlashLock Secure Concurrency Checkout (100% Stock Protection)</p>
+                </div>
+            </div>
+            <button onclick="closeCheckoutModal()" class="text-slate-300 hover:text-white p-1">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-xs">
+
+            <!-- Delivery Address Card -->
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-800 text-sm">1. Delivery Address</span>
+                    <span class="text-amz-link font-medium cursor-pointer" onclick="openAuthModal()">Change Account</span>
+                </div>
+                <p id="checkoutUserAddressDisplay" class="text-slate-600"><strong>Customer (#102)</strong>, 742 Evergreen Heights, Cyber City, Bangalore, 560001</p>
+            </div>
+
+            <!-- Payment Method Options -->
+            <div class="border border-slate-200 rounded-lg p-3 space-y-3">
+                <span class="font-bold text-slate-800 text-sm block">2. Select Payment Method</span>
+
+                <!-- Cash on Delivery -->
+                <label class="flex items-start space-x-3 p-2.5 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                    <!-- Checkout Body -->
+                    <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-xs">
+
+                        <!-- Delivery Address & Country Selector Card -->
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-800 text-sm">1. Delivery Destination & Country</span>
+                                <span class="text-amz-link font-medium cursor-pointer" onclick="openAuthModal()">Change Account</span>
+                            </div>
+
+                            <!-- Active Destination Country Dropdown -->
+                            <div class="flex items-center gap-2 pt-1">
+                                <label class="text-[11px] font-semibold text-slate-600">Paying from / Delivering to:</label>
+                                <select id="checkoutCountrySelect" onchange="handleCountryChange(this.value)" class="px-2.5 py-1 text-xs border border-slate-300 rounded bg-white text-slate-800 font-bold focus:outline-none focus:border-amz-orange cursor-pointer">
+                                    <option value="IN">🇮🇳 India (INR ₹)</option>
+                                    <option value="NP">🇳🇵 Nepal (eSewa / Khalti / NPR)</option>
+                                    <option value="BD">🇧🇩 Bangladesh (bKash / Nagad / BDT)</option>
+                                    <option value="LK">🇱🇰 Sri Lanka (FriMi / Genie / LKR)</option>
+                                    <option value="AE">🇦🇪 UAE / Middle East (Tabby / Careem / AED)</option>
+                                    <option value="US">🇺🇸 USA & Global (PayPal / Apple Pay / USD)</option>
+                                    <option value="GB">🇬🇧 United Kingdom (Cards / Apple Pay / GBP)</option>
+                                </select>
+                            </div>
+
+                            <p id="checkoutUserAddressDisplay" class="text-slate-600 text-[11px]"><strong>Customer (#102)</strong>, 742 Evergreen Heights, Cyber City, Bangalore, 560001</p>
+                        </div>
+
+                        <!-- Dynamic Country-Specific Payment Method Options -->
+                        <div class="border border-slate-200 rounded-lg p-3 space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-slate-800 text-sm block">2. Select Payment Method</span>
+                                <span id="countryPaymentBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+              🇮🇳 India Gateways Active
+            </span>
+                            </div>
+
+                            <!-- Container where country-specific payment options are dynamically rendered -->
+                            <div id="dynamicPaymentOptionsContainer" class="space-y-2.5">
+                                <!-- Populated dynamically by renderPaymentMethods() -->
+                            </div>
+
+                            <!-- Dynamic payment input subfields (eSewa ID, UPI ID, Card inputs, etc.) -->
+                            <div id="paymentInputSubfield" class="hidden mt-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Total Breakdown Bar -->
+                        <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 flex items-center justify-between">
+                            <span class="text-slate-700 font-medium">Order Total to Pay:</span>
+                            <span id="checkoutTotalAmount" class="text-xl font-black text-red-700">₹0</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
+                        <button onclick="closeCheckoutModal()" class="px-4 py-2 rounded text-xs font-semibold text-slate-700 hover:bg-slate-200 transition">Cancel</button>
+                        <button id="confirmPayBtn" onclick="processPaymentAndCheckout()" class="px-6 py-2 rounded-lg bg-amz-btn hover:bg-amz-btnHover border border-amber-500 font-bold text-xs text-slate-900 shadow transition flex items-center space-x-1.5">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                            <span id="confirmPayBtnText">Place Your Order and Pay</span>
+                        </button>
+                    </div>
+
+            </div>
+        </div>
+
+        <!-- ================= 7. ORDER RECEIPT MODAL ================= -->
+        <div id="receiptModalBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0 flex items-center justify-center p-4">
+            <div class="relative w-full max-w-lg bg-white rounded-xl shadow-2xl border border-slate-300 p-6 space-y-4 text-center">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                    <i data-lucide="check-circle" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">Order Placed Successfully!</h3>
+                    <p class="text-xs text-slate-500">Thank you for shopping with FlashLock India.</p>
+                </div>
+
+                <div id="receiptDetailsCard" class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-left text-xs font-mono space-y-2 text-slate-700"></div>
+
+                <div class="flex gap-3 pt-2">
+                    <button onclick="closeReceiptAndOpenOrders()" class="flex-1 py-2 rounded-lg bg-amz-btn hover:bg-amz-btnHover border border-amber-500 font-bold text-xs text-slate-900">View in Your Orders</button>
+                    <button onclick="closeReceiptModal()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-xs font-semibold text-slate-800">Continue Shopping</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 8. YOUR ORDERS & CANCELLATION ================= -->
+        <div id="ordersModalBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0 flex items-center justify-center p-3 sm:p-4">
+            <div class="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-slate-300 flex flex-col max-h-[85vh] overflow-hidden">
+
+                <div class="p-4 bg-amz-header text-white flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="package" class="w-5 h-5 text-amz-yellow"></i>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Your Orders & Returns</h3>
+                            <p class="text-[11px] text-slate-300">Track packages or cancel order to trigger OCC warehouse restock</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleOrdersPanel()" class="text-slate-300 hover:text-white p-1">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="ordersListContainer" class="p-4 overflow-y-auto space-y-3 flex-1 bg-slate-50"></div>
+
+                <div class="p-3 bg-white border-t border-slate-200 text-center text-xs text-slate-500">
+                    FlashLock Database Synced. Cancelling an order instantly restores reserved units back into PostgreSQL.
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 9. OFFERS & COUPONS MODAL ================= -->
+        <div id="offersModalBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0 flex items-center justify-center p-4">
+            <div class="relative w-full max-w-md bg-white rounded-xl shadow-2xl border border-slate-300 p-5 space-y-4">
+                <div class="flex items-center justify-between border-b pb-3 border-slate-200">
+                    <div class="flex items-center space-x-2 text-amz-orange font-bold">
+                        <i data-lucide="tag" class="w-5 h-5"></i>
+                        <span class="text-slate-900 font-bold">Active Coupons & Bank Offers</span>
+                    </div>
+                    <button onclick="closeOffersModal()" class="text-slate-400 hover:text-slate-700">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-2.5 text-xs">
+                    <div class="p-3 rounded border border-dashed border-amz-orange bg-amber-50 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-red-700 font-mono">FESTIVE10</span>
+                            <p class="font-bold text-slate-800 mt-0.5">Flat 10% Discount Sitewide</p>
+                            <p class="text-[10px] text-slate-500">Maximum savings of ₹5,000</p>
+                        </div>
+                        <button onclick="copyAndApplyPromo('FESTIVE10')" class="bg-amz-btn hover:bg-amz-btnHover border border-amber-500 px-3 py-1 rounded font-bold">Apply</button>
+                    </div>
+
+                    <div class="p-3 rounded border border-dashed border-emerald-500 bg-emerald-50 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-emerald-800 font-mono">FLASHLOCK500</span>
+                            <p class="font-bold text-slate-800 mt-0.5">₹500 Instant Cashback</p>
+                            <p class="text-[10px] text-slate-500">On cart values above ₹2,000</p>
+                        </div>
+                        <button onclick="copyAndApplyPromo('FLASHLOCK500')" class="bg-amz-btn hover:bg-amz-btnHover border border-amber-500 px-3 py-1 rounded font-bold">Apply</button>
+                    </div>
+
+                    <div class="p-3 rounded border border-dashed border-blue-500 bg-blue-50 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-blue-800 font-mono">FREESHIP</span>
+                            <p class="font-bold text-slate-800 mt-0.5">Free Express Shipping</p>
+                            <p class="text-[10px] text-slate-500">Waives standard ₹149 delivery charge</p>
+                        </div>
+                        <button onclick="copyAndApplyPromo('FREESHIP')" class="bg-amz-btn hover:bg-amz-btnHover border border-amber-500 px-3 py-1 rounded font-bold">Apply</button>
+                    </div>
+                </div>
+
+                <button onclick="closeOffersModal()" class="w-full py-2 bg-slate-200 hover:bg-slate-300 font-bold text-xs rounded">Close</button>
+            </div>
+        </div>
+
+        <!-- ================= 10. AUTHENTICATION MODAL (SIGN IN & REGISTER) ================= -->
+        <div id="authModalBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300 opacity-0 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+            <div class="relative w-full max-w-md bg-white rounded-xl shadow-2xl border border-slate-300 overflow-hidden my-6">
+
+                <!-- Auth Header -->
+                <div class="p-4 bg-amz-header text-white flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl font-black text-white">Flash<span class="text-amz-yellow">Lock</span></span>
+                        <span class="text-[10px] font-bold text-amz-yellow border border-amz-yellow/60 rounded px-1">Secure ID</span>
+                    </div>
+                    <button onclick="closeAuthModal()" class="text-slate-300 hover:text-white p-1">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Auth Tabs: Sign In vs Create Account -->
+                <div class="flex border-b border-slate-200 bg-slate-100 text-xs font-bold">
+                    <button id="tabSignInBtn" onclick="switchAuthTab('signin')" class="flex-1 py-3 text-center border-b-2 border-amz-orange bg-white text-slate-900 transition">
+                        Sign In
+                    </button>
+                    <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-3 text-center text-slate-500 hover:text-slate-900 transition">
+                        Create New Account
+                    </button>
+                </div>
+
+                <!-- Sign In Form -->
+                <form id="signInForm" onsubmit="handleSignIn(event)" class="p-5 space-y-3.5 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Gmail or Phone Number</label>
+                        <input id="loginIdentifier" type="text" required placeholder="user@gmail.com or 9876543210" class="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="font-bold text-slate-800">Password</label>
+                            <a href="#" onclick="showToast('Password reset link sent to registered email', 'info')" class="text-amz-link hover:underline text-[11px]">Forgot Password?</a>
+                        </div>
+                        <input id="loginPassword" type="password" required placeholder="At least 6 characters" class="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded bg-amz-btn hover:bg-amz-btnHover border border-amber-500 font-bold text-slate-950 shadow-sm transition">
+                        Sign In
+                    </button>
+                    <p class="text-[11px] text-slate-500 text-center">
+                        By signing in, you agree to FlashLock's <a href="#" class="text-amz-link underline">Conditions of Use</a> and <a href="#" class="text-amz-link underline">Privacy Notice</a>.
+                    </p>
+                    <div class="pt-2 border-t border-slate-200 text-center">
+                        <p class="text-slate-600 mb-2">New to FlashLock?</p>
+                        <button type="button" onclick="switchAuthTab('register')" class="w-full py-2 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 font-semibold text-slate-800 transition">
+                            Create your FlashLock account
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Create Account Form (Gmail + Multi-Country Phone) -->
+                <form id="registerForm" onsubmit="handleRegister(event)" class="p-5 space-y-3 text-xs hidden">
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Your Name</label>
+                        <input id="regName" type="text" required placeholder="First and last name" class="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Gmail / Email Address</label>
+                        <input id="regEmail" type="email" required placeholder="example@gmail.com" class="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Mobile Number</label>
+                        <div class="flex gap-2">
+                            <!-- Multi-Country Phone Selector (Nepal, India, etc.) -->
+                            <select id="regCountryCode" class="w-2/5 px-2 py-2 border border-slate-300 rounded text-slate-800 bg-slate-50 focus:outline-none focus:border-amz-orange cursor-pointer">
+                                <option value="+91" selected>🇮🇳 India (+91)</option>
+                                <option value="+977">🇳🇵 Nepal (+977)</option>
+                                <option value="+880">🇧🇩 Bangladesh (+880)</option>
+                                <option value="+94">🇱🇰 Sri Lanka (+94)</option>
+                                <option value="+971">🇦🇪 UAE (+971)</option>
+                                <option value="+1">🇺🇸 USA (+1)</option>
+                                <option value="+44">🇬🇧 UK (+44)</option>
+                                <option value="+65">🇸🇬 Singapore (+65)</option>
+                                <option value="+60">🇲🇾 Malaysia (+60)</option>
+                                <option value="+61">🇦🇺 Australia (+61)</option>
+                                <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                            </select>
+                            <input id="regPhone" type="tel" required placeholder="Mobile number" pattern="[0-9]{7,15}" class="flex-1 px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Password</label>
+                        <input id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:outline-none focus:border-amz-orange">
+                        <span class="text-[10px] text-slate-500">Passwords must be at least 6 characters.</span>
+                    </div>
+
+                    <button type="submit" class="w-full py-2.5 rounded bg-amz-btn hover:bg-amz-btnHover border border-amber-500 font-bold text-slate-950 shadow-sm transition">
+                        Verify Mobile & Create Account
+                    </button>
+
+                    <p class="text-[11px] text-slate-500 text-center">
+                        Already have an account? <a href="#" onclick="switchAuthTab('signin')" class="text-amz-link underline font-bold">Sign in</a>
+                    </p>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Toast Notification Container -->
+        <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+        <!-- ================= 11. FOOTER ================= -->
+        <footer class="bg-amz-header text-slate-300 text-xs mt-12">
+            <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-amz-subnav text-center py-3 text-slate-200 hover:bg-slate-700 cursor-pointer font-medium">
+                Back to top ↑
+            </div>
+            <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-slate-400">
+                <div>
+                    <h4 class="text-white font-bold mb-2">Get to Know Us</h4>
+                    <ul class="space-y-1">
+                        <li>About FlashLock</li>
+                        <li>Careers</li>
+                        <li>Press Releases</li>
+                        <li>Flash Science</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2">Connect with Us</h4>
+                    <ul class="space-y-1">
+                        <li>Facebook</li>
+                        <li>Twitter / X</li>
+                        <li>Instagram</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2">Make Money with Us</h4>
+                    <ul class="space-y-1">
+                        <li>Sell on FlashLock</li>
+                        <li>Protect with OCC</li>
+                        <li>Supply Chain Hub</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2">Let Us Help You</h4>
+                    <ul class="space-y-1">
+                        <li>Your Account</li>
+                        <li>Returns Centre</li>
+                        <li>100% Purchase Protection</li>
+                        <li>Help & Support</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 py-4 text-center text-slate-500 text-[11px]">
+                © 2026, FlashLock.in, Inc. or its affiliates. Built with Spring Boot, Spring Retry & PostgreSQL Optimistic Concurrency Control.
+            </div>
+        </footer>
+
+        <!-- ================= MASTER APPLICATION JAVASCRIPT ================= -->
+        <script>
+            const formatINR = (amt) => "₹" + Number(amt).toLocaleString('en-IN');
+
+            // Country-specific payment gateway configurations
+            const COUNTRY_PAYMENT_CONFIG = {
+                NP: {
+                    name: "Nepal",
+                    flag: "🇳🇵",
+                    badge: "🇳🇵 Nepal Local Gateways",
+                    currencyNote: "Payable via Nepal wallets (NPR equivalent)",
+                    methods: [
+                        {
+                            id: "ESEWA",
+                            name: "eSewa Mobile Wallet",
+                            badge: "Most Popular in Nepal",
+                            badgeColor: "bg-emerald-600 text-white",
+                            desc: "Instant payment with Nepal's #1 digital wallet (eSewa ID: 98XXXXXXXX)",
+                            placeholder: "Enter eSewa ID (e.g. 9841234567 or email@esewa.com.np)",
+                            defaultValue: "9841002345@esewa"
+                        },
+                        {
+                            id: "KHALTI",
+                            name: "Khalti Digital Wallet",
+                            badge: "Instant Cashback",
+                            badgeColor: "bg-purple-600 text-white",
+                            desc: "Pay seamlessly with Khalti wallet or Khalti mBanking",
+                            placeholder: "Enter Khalti Registered Mobile (98XXXXXXXX)",
+                            defaultValue: "9801234567"
+                        },
+                        {
+                            id: "CONNECT_IPS",
+                            name: "connectIPS / NCHL Bank Transfer",
+                            badge: "Direct Bank",
+                            badgeColor: "bg-blue-600 text-white",
+                            desc: "Direct account-to-account transfer via Nepal clearing house",
+                            placeholder: "Enter connectIPS Username",
+                            defaultValue: "user.nepal.ips"
+                        },
+                        {
+                            id: "IME_PAY",
+                            name: "IME Pay Digital Wallet",
+                            badge: null,
+                            desc: "Fast checkout using IME Pay account balance",
+                            placeholder: "Enter IME Pay Mobile Number",
+                            defaultValue: "9812345678"
+                        },
+                        {
+                            id: "COD",
+                            name: "Cash on Delivery (Nepal)",
+                            badge: "Pay in NPR",
+                            badgeColor: "bg-slate-700 text-white",
+                            desc: "Pay in Nepalese Rupees (NPR) upon courier arrival across Kathmandu, Pokhara, etc.",
+                            placeholder: null
+                        }
+                    ]
+                },
+                IN: {
+                    name: "India",
+                    flag: "🇮🇳",
+                    badge: "🇮🇳 India Gateways Active",
+                    currencyNote: "Payable in INR (₹)",
+                    methods: [
+                        {
+                            id: "UPI",
+                            name: "Instant UPI (Google Pay, PhonePe, Paytm, BHIM)",
+                            badge: "Instant 0-Fee",
+                            badgeColor: "bg-emerald-600 text-white",
+                            desc: "Pay directly from any Indian bank account using UPI Virtual Address",
+                            placeholder: "Enter UPI ID (e.g. mobile@okhdfcbank or user@paytm)",
+                            defaultValue: "customer@upi"
+                        },
+                        {
+                            id: "SWAGGER_PAY",
+                            name: "Swagger Pay (1-Click Instant)",
+                            badge: "₹250 CASHBACK",
+                            badgeColor: "bg-emerald-600 text-white",
+                            desc: "Zero transaction fee • Auto-synced to developer session.",
+                            placeholder: null
+                        },
+                        {
+                            id: "CREDIT_CARD",
+                            name: "Credit / Debit Card (Visa, RuPay, MasterCard)",
+                            badge: null,
+                            desc: "All major Indian and international debit/credit cards accepted",
+                            isCard: true
+                        },
+                        {
+                            id: "COD",
+                            name: "Cash on Delivery / Pay on Delivery",
+                            badge: null,
+                            desc: "Scan QR or pay cash to courier. No advance payment required.",
+                            placeholder: null
+                        }
+                    ]
+                },
+                BD: {
+                    name: "Bangladesh",
+                    flag: "🇧🇩",
+                    badge: "🇧🇩 Bangladesh MFS Active",
+                    currencyNote: "Payable in BDT equivalent",
+                    methods: [
+                        {
+                            id: "BKASH",
+                            name: "bKash Mobile Financial Service",
+                            badge: "Popular",
+                            badgeColor: "bg-pink-600 text-white",
+                            desc: "Pay with your personal bKash account (+880 1XXXXXXXXX)",
+                            placeholder: "Enter bKash Account Number (01XXXXXXXXX)",
+                            defaultValue: "01712345678"
+                        },
+                        {
+                            id: "NAGAD",
+                            name: "Nagad Post Office Digital Money",
+                            badge: null,
+                            desc: "Secure checkout using Bangladesh Post Office's Nagad",
+                            placeholder: "Enter Nagad Mobile Number",
+                            defaultValue: "01812345678"
+                        },
+                        {
+                            id: "COD",
+                            name: "Cash on Delivery (Bangladesh)",
+                            badge: null,
+                            desc: "Pay cash in BDT upon delivery across Dhaka, Chittagong, etc.",
+                            placeholder: null
+                        }
+                    ]
+                },
+                LK: {
+                    name: "Sri Lanka",
+                    flag: "🇱🇰",
+                    badge: "🇱🇰 Sri Lanka Payments",
+                    currencyNote: "Payable in LKR equivalent",
+                    methods: [
+                        {
+                            id: "FRIMI",
+                            name: "FriMi / Nations Trust Digital Banking",
+                            badge: "Popular",
+                            badgeColor: "bg-orange-600 text-white",
+                            desc: "Pay instantly through your FriMi digital wallet",
+                            placeholder: "Enter FriMi Mobile ID",
+                            defaultValue: "0771234567"
+                        },
+                        {
+                            id: "GENIE",
+                            name: "Genie by Dialog",
+                            badge: null,
+                            desc: "Fast checkout powered by Sri Lanka's Dialog Genie",
+                            placeholder: "Enter Genie Wallet ID",
+                            defaultValue: "genie.user@dialog.lk"
+                        },
+                        {
+                            id: "COD",
+                            name: "Cash on Delivery (Sri Lanka)",
+                            badge: null,
+                            desc: "Pay in Sri Lankan Rupees upon receipt",
+                            placeholder: null
+                        }
+                    ]
+                },
+                AE: {
+                    name: "UAE & Middle East",
+                    flag: "🇦🇪",
+                    badge: "🇦🇪 UAE & GCC Gateways",
+                    currencyNote: "Payable in AED / SAR",
+                    methods: [
+                        {
+                            id: "TABBY",
+                            name: "Tabby (Split into 4 interest-free payments)",
+                            badge: "Buy Now Pay Later",
+                            badgeColor: "bg-emerald-600 text-white",
+                            desc: "Split your total into 4 easy monthly installments",
+                            placeholder: "Enter UAE Mobile Number (+971 5XXXXXXXX)",
+                            defaultValue: "+971 501234567"
+                        },
+                        {
+                            id: "APPLE_PAY",
+                            name: "Apple Pay / Careem Pay",
+                            badge: "Fast 1-Tap",
+                            badgeColor: "bg-black text-white",
+                            desc: "Touch ID / Face ID one-click secure checkout",
+                            placeholder: null
+                        },
+                        {
+                            id: "CREDIT_CARD",
+                            name: "International Credit/Debit Card",
+                            badge: null,
+                            desc: "Visa, Mastercard, and GCC local network cards",
+                            isCard: true
+                        },
+                        {
+                            id: "COD",
+                            name: "Cash on Delivery (UAE)",
+                            badge: null,
+                            desc: "Pay cash upon arrival anywhere in Dubai, Abu Dhabi & Sharjah",
+                            placeholder: null
+                        }
+                    ]
+                },
+                US: {
+                    name: "USA & Global",
+                    flag: "🇺🇸",
+                    badge: "🇺🇸 US & Global Gateways",
+                    currencyNote: "Payable in USD ($)",
+                    methods: [
+                        {
+                            id: "PAYPAL",
+                            name: "PayPal / Venmo",
+                            badge: "Protected",
+                            badgeColor: "bg-blue-600 text-white",
+                            desc: "Checkout with PayPal account balance or linked US bank account",
+                            placeholder: "Enter PayPal Email Address",
+                            defaultValue: "customer@paypal.com"
+                        },
+                        {
+                            id: "APPLE_PAY",
+                            name: "Apple Pay / Google Pay",
+                            badge: "Fast Checkout",
+                            badgeColor: "bg-slate-900 text-white",
+                            desc: "Tokenized instant payment directly from your device wallet",
+                            placeholder: null
+                        },
+                        {
+                            id: "CREDIT_CARD",
+                            name: "Credit / Debit Card (Visa, Amex, Mastercard)",
+                            badge: null,
+                            desc: "Secure 256-bit encrypted checkout with all international cards",
+                            isCard: true
+                        }
+                    ]
+                },
+                GB: {
+                    name: "United Kingdom",
+                    flag: "🇬🇧",
+                    badge: "🇬🇧 UK Faster Payments",
+                    currencyNote: "Payable in GBP (£)",
+                    methods: [
+                        {
+                            id: "APPLE_PAY",
+                            name: "Apple Pay / Google Pay",
+                            badge: "Popular",
+                            badgeColor: "bg-slate-900 text-white",
+                            desc: "Biometric 1-tap checkout on iOS & Android",
+                            placeholder: null
+                        },
+                        {
+                            id: "PAYPAL",
+                            name: "PayPal UK",
+                            badge: null,
+                            desc: "Pay with your linked UK bank or debit card",
+                            placeholder: "Enter PayPal Email",
+                            defaultValue: "uk.customer@paypal.co.uk"
+                        },
+                        {
+                            id: "CREDIT_CARD",
+                            name: "UK Debit / Credit Card",
+                            badge: null,
+                            desc: "Visa Debit, Mastercard, and Maestro supported",
+                            isCard: true
+                        }
+                    ]
+                }
+            };
+
+            let CURRENT_COUNTRY_CODE = 'IN';
+
+            const MASTER_CATEGORIES_DATA = [
+                { id: "household", name: "Household", icon: "home", range: [99, 1499], img: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=400&q=80",
+                    items: ["Plastic bucket","Water mug","Water storage tank","Dustbin","Broom","Floor mop","Door mat","Floor mat","Curtains","Bedsheet","Pillow","Pillow cover","Blanket","Mattress","Mosquito net","Clothes hanger","Laundry basket","Storage box","Plastic container","Wall clock","Shoe rack","Umbrella stand","Tissue box","Door stopper","Key holder","Wall hooks","Plastic stool","Folding table","Laundry clips","Cloth drying rack","Water bottle","Thermos flask","Doorbell","Room freshener","Air freshener dispenser","Window blinds","Plastic chair","Floor wiper","Wall mirror","Shoe organizer"] },
+                { id: "kitchen", name: "Kitchen", icon: "utensils", range: [149, 3999], img: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=400&q=80",
+                    items: ["Pressure cooker","Cooking pot","Frying pan","Non-stick pan","Tawa","Saucepan","Kadai","Cooking spoon","Spatula","Ladle","Kitchen knife","Vegetable peeler","Cutting board","Grater","Kitchen scissors","Mixing bowl","Measuring cup","Measuring spoon","Colander","Tea strainer","Oil dispenser","Spice container","Salt shaker","Pepper shaker","Lunch box","Food storage box","Water jug","Serving tray","Plate","Bowl","Drinking glass","Tea cup","Coffee mug","Fork","Spoon","Dinner knife","Dish rack","Kitchen tongs","Rolling pin","Chakla"] },
+                { id: "personal_care", name: "Personal Care", icon: "sparkles", range: [79, 1299], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=400&q=80",
+                    items: ["Toothbrush","Toothpaste","Mouthwash","Dental floss","Tongue cleaner","Shampoo","Conditioner","Hair oil","Hair serum","Hair gel","Hair comb","Hairbrush","Hair dryer","Hair straightener","Hair trimmer","Shaving razor","Shaving cream","Aftershave lotion","Bathing soap","Body wash","Face wash","Face scrub","Face cream","Body lotion","Sunscreen","Lip balm","Deodorant","Perfume","Nail cutter","Nail filer","Nail polish","Makeup remover","Cotton pads","Earbuds","Hand sanitizer","Hand cream","Foot cream","Talcum powder","Bath sponge","Loofah"] },
+                { id: "cleaning", name: "Cleaning", icon: "brush", range: [69, 899], img: "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=400&q=80",
+                    items: ["Dishwashing liquid","Dishwashing bar","Laundry detergent","Washing powder","Fabric softener","Floor cleaner","Toilet cleaner","Bathroom cleaner","Glass cleaner","Kitchen degreaser","Disinfectant liquid","Bleaching powder","Stain remover","Carpet cleaner","Furniture polish","Metal polish","Shoe polish","Scrubbing pad","Steel scrubber","Cleaning brush","Toilet brush","Bottle cleaning brush","Microfiber cloth","Cleaning gloves","Garbage bags","Drain cleaner","Air freshener spray","Washing machine cleaner","Dishwasher tablets","Floor wiper","Feather duster","Cobweb cleaner","Sponge cloth","Window cleaning tool","Mop refill","Dustpan","Handheld vacuum cleaner","Lint roller","Laundry stain stick","Shoe cleaning brush"] },
+                { id: "electronics", name: "Mobiles & Tech", icon: "smartphone", range: [299, 45999], img: "https://images.unsplash.com/photo-1511707171634-5f897ff02560?auto=format&fit=crop&w=400&q=80",
+                    items: ["Smartphone","Laptop","Desktop computer","Tablet","Television","Refrigerator","Washing machine","Air conditioner","Electric fan","Ceiling fan","Table fan","LED bulb","Tube light","Night lamp","Emergency light","Electric iron","Electric kettle","Microwave oven","Induction cooktop","Rice cooker","Mixer grinder","Juicer","Toaster","Sandwich maker","Water heater","Water purifier","Vacuum cleaner","Air purifier","Dehumidifier","Room heater","Hair dryer","Electric shaver","Electric toothbrush","Power bank","Mobile charger","USB cable","Extension board","Voltage stabilizer","Wi-Fi router","Bluetooth speaker"] },
+                { id: "furniture", name: "Furniture", icon: "armchair", range: [799, 24999], img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80",
+                    items: ["Single bed","Double bed","Bunk bed","Sofa","Recliner chair","Dining table","Dining chair","Study table","Office desk","Office chair","Computer table","Coffee table","Side table","Bedside table","Wardrobe","Bookshelf","Shoe cabinet","Kitchen cabinet","TV cabinet","Dressing table","Wall shelf","Display cabinet","Storage cabinet","Plastic cupboard","Folding chair","Rocking chair","Bean bag","Garden chair","Garden table","Wooden stool","Bar stool","Shoe bench","Console table","Chest of drawers","Filing cabinet","Bedside lamp table","Modular kitchen unit","Bathroom cabinet","Wall-mounted desk","Foldable bed"] },
+                { id: "bathroom", name: "Bathroom", icon: "bath", range: [129, 2999], img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80",
+                    items: ["Shower head","Shower hose","Bathroom tap","Bathroom faucet","Wash basin","Bathroom mirror","Soap dispenser","Toothbrush holder","Towel rack","Towel ring","Toilet seat","Toilet brush holder","Toilet paper holder","Shower curtain","Shower curtain rings","Bathroom shelf","Bathroom organizer","Bath mat","Shower mat","Bathroom bucket","Bathroom mug","Water heater","Bathroom exhaust fan","Bathroom dustbin","Liquid soap","Bath salts","Bath sponge holder","Bathroom hooks","Shower caddy","Toilet flush tank","Bathroom drain cover","Floor drain trap","Hand dryer","Water-saving faucet","Bathroom stool","Bathrobe","Shower cap","Foot scrubber","Toilet cleaning gel","Bathroom squeegee"] },
+                { id: "clothing", name: "Fashion", icon: "shirt", range: [299, 4999], img: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80",
+                    items: ["T-shirt","Polo shirt","Formal shirt","Casual shirt","Jeans","Formal trousers","Track pants","Shorts","Cotton pants","Kurta","Kurti","Saree","Salwar suit","Leggings","Skirt","Dress","Hoodie","Sweatshirt","Sweater","Jacket","Raincoat","Thermal wear","Nightwear","Pajamas","Underwear","Vest","Bra","Socks","School uniform","Sportswear","Blazer","Suit","Tie","Scarf","Shawl","Handkerchief","Gloves","Cap","Hat","Apron"] },
+                { id: "footwear_fashion", name: "Shoes & Bags", icon: "footprints", range: [399, 6999], img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
+                    items: ["Running shoes","Formal shoes","Sports shoes","Sneakers","Sandals","Flip-flops","Slippers","Boots","School shoes","Safety shoes","Leather belt","Wallet","Handbag","Backpack","School bag","Laptop bag","Travel bag","Suitcase","Sunglasses","Wristwatch","Smartwatch","Bracelet","Necklace","Earrings","Ring","Anklet","Hairband","Hair clips","Hair ties","Brooch","Cufflinks","Tie clip","Purse","Card holder","Keychain","Luggage tag","Shoe insoles","Shoe laces","Shoe horn","Shoe storage bag"] },
+                { id: "grocery", name: "Grocery & Foods", icon: "shopping-basket", range: [49, 1499], img: "https://images.unsplash.com/photo-1584473457406-624048518851?auto=format&fit=crop&w=400&q=80",
+                    items: ["Rice","Wheat flour","Maida","Semolina","Sugar","Salt","Jaggery","Cooking oil","Ghee","Butter","Milk","Curd","Paneer","Cheese","Eggs","Bread","Biscuits","Noodles","Pasta","Oats","Cornflakes","Tea powder","Coffee powder","Cocoa powder","Honey","Jam","Peanut butter","Tomato ketchup","Pickles","Papad","Toor dal","Moong dal","Urad dal","Chana dal","Chickpeas","Kidney beans","Green peas","Almonds","Cashews","Raisins"] },
+                { id: "fruits_veg", name: "Fruits & Veggies", icon: "apple", range: [39, 499], img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=400&q=80",
+                    items: ["Apple","Banana","Orange","Mango","Grapes","Watermelon","Papaya","Pineapple","Pomegranate","Guava","Pear","Peach","Plum","Strawberry","Blueberry","Coconut","Lemon","Sweet lime","Avocado","Jackfruit","Potato","Tomato","Onion","Garlic","Ginger","Carrot","Beetroot","Radish","Cabbage","Cauliflower","Broccoli","Spinach","Brinjal","Cucumber","Pumpkin","Bottle gourd","Bitter gourd","Okra","Green chilli","Capsicum"] },
+                { id: "baby_care", name: "Baby Store", icon: "baby", range: [149, 5999], img: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=400&q=80",
+                    items: ["Baby diapers","Baby wipes","Baby shampoo","Baby soap","Baby lotion","Baby powder","Baby oil","Baby cream","Baby feeding bottle","Baby bottle brush","Baby bib","Baby blanket","Baby towel","Baby clothes","Baby socks","Baby shoes","Baby stroller","Baby carrier","Baby cot","Baby mattress","Baby pillow","Baby mosquito net","Baby bathtub","Baby nail clipper","Baby thermometer","Baby pacifier","Baby teether","Baby rattle","Baby walker","Baby high chair","Baby changing mat","Diaper bag","Breast pump","Milk storage bags","Baby food container","Baby safety gate","Baby car seat","Baby monitor","Baby toothbrush","Baby laundry detergent"] },
+                { id: "office_study", name: "Stationery & Books", icon: "pen-tool", range: [29, 1499], img: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80",
+                    items: ["Ballpoint pen","Gel pen","Fountain pen","Pencil","Mechanical pencil","Eraser","Sharpener","Notebook","Diary","Register","Drawing book","Graph paper","A4 paper","Printer paper","Stapler","Staples","Paper clips","Binder clips","Scissors","Glue stick","Adhesive tape","Highlighter","Permanent marker","Whiteboard marker","Whiteboard","Duster","Calculator","Geometry box","Ruler","Protractor","Compass","Pencil box","School bag","File folder","Document holder","Clipboard","Sticky notes","Paper punch","Desk organizer","Book stand"] },
+                { id: "automobile", name: "Auto Accessories", icon: "car", range: [199, 4999], img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&q=80",
+                    items: ["Car seat cover","Steering wheel cover","Car floor mat","Car perfume","Car air freshener","Car vacuum cleaner","Car washing shampoo","Car polish","Car wax","Car windshield cleaner","Car wiper blades","Car phone holder","Car charger","Car USB adapter","Car sunshade","Car cover","Car tyre inflator","Tyre pressure gauge","Tyre repair kit","Jumper cables","Emergency warning triangle","Car first-aid kit","Car tool kit","Bike helmet","Motorcycle gloves","Bike rain cover","Bike seat cover","Bike mobile holder","Bike chain lubricant","Bike cleaning brush","Bike side mirror","Bike indicator light","Vehicle number plate frame","Car dash camera","Parking sensor","Car reverse camera","Car tissue holder","Car trash bin","Car boot organizer","Reflective safety vest"] },
+                { id: "gardening", name: "Garden & Outdoors", icon: "sprout", range: [99, 3499], img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=400&q=80",
+                    items: ["Flower pot","Plastic planter","Ceramic planter","Hanging planter","Garden soil","Potting mix","Compost","Vermicompost","Organic fertilizer","Plant seeds","Seedling tray","Watering can","Garden hose","Hose nozzle","Garden sprayer","Hand trowel","Garden fork","Pruning shears","Garden scissors","Hedge trimmer","Lawn mower","Grass cutter","Gardening gloves","Garden boots","Plant support sticks","Plant ties","Plant labels","Garden rake","Garden spade","Wheelbarrow","Drip irrigation pipe","Sprinkler","Water pump","Rainwater collection barrel","Compost bin","Bird feeder","Garden net","Shade net","Insect trap","Garden storage box"] },
+                { id: "healthcare", name: "Pharmacy & Health", icon: "heart-pulse", range: [89, 7999], img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=400&q=80",
+                    items: ["Digital thermometer","Blood pressure monitor","Pulse oximeter","Glucometer","Glucose test strips","First-aid box","Cotton rolls","Cotton balls","Adhesive bandages","Sterile gauze","Medical tape","Antiseptic liquid","Hand sanitizer","Hot water bag","Ice pack","Heating pad","Digital weighing scale","Body massager","Knee support","Wrist support","Ankle support","Lumbar support belt","Walking stick","Wheelchair","Walking frame","Crutches","Nebulizer","Steam inhaler","Medicine organizer","Pill cutter","Pill crusher","Eye drops","Eye wash cup","Disposable face masks","Medical gloves","Surgical cap","Disposable shoe covers","Medical waste bin","Bedside commode","Reusable hot and cold pack"] },
+                { id: "sports_fitness", name: "Sports & Fitness", icon: "dumbbell", range: [199, 18999], img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80",
+                    items: ["Cricket bat","Cricket ball","Cricket stumps","Cricket gloves","Cricket pads","Football","Football shoes","Basketball","Basketball hoop","Volleyball","Volleyball net","Badminton racket","Shuttlecock","Tennis racket","Tennis ball","Table tennis bat","Table tennis ball","Hockey stick","Hockey ball","Skipping rope","Yoga mat","Yoga blocks","Resistance bands","Dumbbells","Barbell","Weight plates","Kettlebell","Gym gloves","Gym belt","Treadmill","Exercise cycle","Pull-up bar","Foam roller","Ab roller","Push-up bars","Fitness tracker","Sports water bottle","Sports towel","Swimming goggles","Swimming cap"] },
+                { id: "travel", name: "Luggage & Travel", icon: "plane", range: [149, 7999], img: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80",
+                    items: ["Travel suitcase","Cabin trolley","Duffel bag","Travel backpack","Passport holder","Travel wallet","Luggage lock","Luggage tag","Travel pillow","Eye mask","Earplugs","Travel blanket","Packing cubes","Toiletry bag","Travel toothbrush","Travel toothpaste","Travel soap case","Travel shampoo bottle","Travel perfume bottle","Reusable travel bottle","Collapsible water bottle","Travel mug","Portable cutlery set","Travel laundry bag","Shoe travel bag","Digital luggage scale","Universal travel adapter","Travel power bank","Portable fan","Mini flashlight","Travel umbrella","Rain poncho","Neck fan","Travel first-aid kit","Travel sewing kit","Travel document organizer","Travel door alarm","Portable Wi-Fi hotspot","Camping tent","Sleeping bag"] },
+                { id: "safety_security", name: "Safety & Locks", icon: "shield", range: [199, 12999], img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=400&q=80",
+                    items: ["Fire extinguisher","Smoke detector","Carbon monoxide detector","Gas leak detector","CCTV camera","Video doorbell","Smart door lock","Digital door lock","Door security alarm","Window security alarm","Motion sensor","Motion sensor light","Emergency flashlight","Rechargeable torch","Emergency radio","Fire blanket","Fire-resistant gloves","Safety helmet","Safety goggles","Protective face shield","Reflective jacket","Safety shoes","Ear protection plugs","Ear protection muffs","Safety harness","Fall protection belt","Emergency whistle","First-aid backpack","Emergency food kit","Emergency water container","Door stopper alarm","Security chain lock","Window lock","Bicycle lock","Motorcycle disc lock","Safe deposit box","Digital locker","Personal alarm","Electrical safety gloves","Water leak detector"] },
+                { id: "smart_home", name: "Smart Devices", icon: "cpu", range: [499, 15999], img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=400&q=80",
+                    items: ["Smart bulb","Smart LED strip","Smart plug","Smart switch","Smart thermostat","Smart AC controller","Smart fan controller","Smart door lock","Smart doorbell","Smart security camera","Smart motion sensor","Smart smoke detector","Smart gas detector","Smart water leak sensor","Smart curtain motor","Smart window opener","Smart irrigation controller","Smart watering system","Smart speaker","Smart display","Smart home hub","Smart TV box","Smart energy meter","Smart electricity monitor","Smart refrigerator sensor","Smart temperature sensor","Smart humidity sensor","Smart air quality monitor","Smart water purifier","Smart weighing scale","Smart mirror","Smart pet feeder","Smart pet camera","Smart garage controller","Smart vacuum robot","Smart air purifier","Smart kitchen timer","Smart coffee maker","Smart washing machine controller","Smart universal remote"] },
+                { id: "toys_entertainment", name: "Toys & Games", icon: "gamepad-2", range: [149, 3999], img: "https://images.unsplash.com/photo-1566576912321-d58ddd74b508?auto=format&fit=crop&w=400&q=80",
+                    items: ["Teddy bear","Toy car","Toy truck","Toy train","Toy airplane","Building blocks","Puzzle cube","Jigsaw puzzle","Board game","Chess set","Ludo board","Playing cards","Drawing board","Colour pencils","Crayons","Watercolour set","Modelling clay","Toy kitchen set","Toy doctor set","Toy building set","Remote control car","Remote control helicopter","Toy robot","Doll","Dollhouse","Action figure","Toy dinosaur","Toy animal set","Bubble maker","Kite","Frisbee","Hula hoop","Jumping ball","Skateboard","Roller skates","Musical keyboard","Toy drum","Toy guitar","Karaoke microphone","Projector for home entertainment"] },
+                { id: "pet_care", name: "Pet Supplies", icon: "dog", range: [99, 4999], img: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=400&q=80",
+                    items: ["Dog food","Cat food","Pet food bowl","Pet water bowl","Automatic pet feeder","Pet water fountain","Dog collar","Cat collar","Dog leash","Dog harness","Pet ID tag","Pet carrier","Pet travel bag","Pet bed","Pet blanket","Pet mattress","Cat litter","Litter box","Litter scoop","Pet shampoo","Pet conditioner","Pet grooming brush","Pet nail clipper","Pet toothbrush","Pet toothpaste","Pet ear cleaner","Pet eye wipes","Pet towel","Pet cleaning wipes","Pet waste bags","Dog training pads","Cat scratching post","Cat climbing tree","Pet toys","Chew toys","Pet ball","Bird cage","Aquarium","Fish food","Aquarium water filter"] },
+                { id: "home_decor", name: "Home & Decor", icon: "palette", range: [199, 3499], img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80",
+                    items: ["Wall paintings","Photo frames","Decorative mirrors","Wall stickers","Wall decals","Artificial flowers","Flower vases","Decorative plants","Indoor planters","Decorative candles","Candle holders","LED decorative lights","Fairy lights","Table lamps","Floor lamps","Pendant lights","Chandeliers","Decorative clocks","Wall hangings","Dream catchers","Decorative cushions","Cushion covers","Table runners","Tablecloths","Decorative trays","Ceramic figurines","Showpieces","Decorative bowls","Door hangings","Wind chimes","Incense holders","Aroma diffusers","Essential oil diffusers","Decorative baskets","Decorative shelves","Artificial grass mats","Decorative rugs","Christmas decorations","Festival lanterns","Decorative torans"] },
+                { id: "tools_hardware", name: "Hardware & Tools", icon: "wrench", range: [79, 5499], img: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?auto=format&fit=crop&w=400&q=80",
+                    items: ["Hammer","Screwdriver","Screwdriver set","Adjustable wrench","Spanner set","Pliers","Combination pliers","Wire cutter","Measuring tape","Spirit level","Hand saw","Hacksaw","Drill machine","Drill bits","Electric screwdriver","Allen key set","Utility knife","Chisel","Sandpaper","Paintbrush","Paint roller","Paint tray","Putty knife","Glue gun","Hot glue sticks","Staple gun","Nail gun","Screw assortment","Nail assortment","Wall plugs","Door hinges","Door handles","Cabinet handles","Padlock","Chain lock","Electrical wire","Electrical tape","Cable ties","PVC pipe","Plumbing wrench"] },
+                { id: "miscellaneous", name: "Daily Essentials", icon: "box", range: [49, 2999], img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80",
+                    items: ["Reusable shopping bag","Paper shopping bag","Lunch bag","Reusable straw","Metal straw","Disposable paper cups","Paper plates","Paper napkins","Tissue paper","Aluminium foil","Cling film","Baking paper","Zip-lock bags","Food wrapping paper","Reusable food wraps","Sewing kit","Sewing machine","Thread spool","Sewing needles","Safety pins","Button set","Measuring tape for clothing","Shoe repair kit","Lint remover","Portable sewing kit","Rechargeable batteries","AA batteries","AAA batteries","Battery charger","Solar power bank","Portable solar panel","Hand fan","Manual water pump","Reusable ice packs","Lunch thermos","Insulated food bag","Water filter jug","Portable clothes steamer","Mini sewing scissors","Multipurpose organizer"] }
+            ];
+
+            function build1000Catalog() {
+                const list = [];
+                let id = 1;
+                MASTER_CATEGORIES_DATA.forEach(cat => {
+                    cat.items.forEach((item, idx) => {
+                        const [minP, maxP] = cat.range;
+                        const step = Math.floor((maxP - minP) / 40);
+                        const price = minP + (idx * step) + (idx % 4) * 15;
+                        const originalPrice = Math.round(price * (1.2 + (idx % 3) * 0.15));
+                        const stock = (idx % 8 === 0) ? Math.max(1, (idx % 4) + 1) : 15 + ((idx * 5) % 35);
+                        const rating = (4.0 + (idx % 10) * 0.1).toFixed(1);
+                        const reviewCount = 80 + (idx * 27);
+
+                        list.push({
+                            id: id++,
+                            name: item,
+                            category: cat.id,
+                            categoryName: cat.name,
+                            price: price,
+                            originalPrice: originalPrice,
+                            stock: stock,
+                            initialStock: stock + 10,
+                            version: 1 + (idx % 12),
+                            rating: rating,
+                            reviews: reviewCount,
+                            image: cat.img,
+                            isAssured: idx % 3 === 0
+                        });
+                    });
+                });
+                return list;
+            }
+
+            const STATE = {
+                products: build1000Catalog(),
+                activeCategory: 'all',
+                searchQuery: '',
+                sortBy: 'featured',
+                visibleCount: 20,
+                cart: [],
+                orders: [],
+                appliedCoupon: null,
+                selectedPaymentMethod: 'COD',
+                currentUser: null,
+                currentCountry: 'IN'
+            };
+
+            function refreshIcons() {
+                if (window.lucide) window.lucide.createIcons();
+            }
+
+            // Country change handler
+            function handleCountryChange(countryCode) {
+                CURRENT_COUNTRY_CODE = countryCode;
+                STATE.currentCountry = countryCode;
+
+                const config = COUNTRY_PAYMENT_CONFIG[countryCode] || COUNTRY_PAYMENT_CONFIG.IN;
+                document.getElementById('countryPaymentBadge').innerText = config.badge;
+
+                // Update address label format based on country
+                const addrEl = document.getElementById('checkoutUserAddressDisplay');
+                if (STATE.currentUser) {
+                    addrEl.innerHTML = `<strong>${STATE.currentUser.name} (#${STATE.currentUser.id})</strong> • ${STATE.currentUser.phone}<br>Delivering to: ${config.name}`;
+                } else {
+                    if (countryCode === 'NP') {
+                        addrEl.innerHTML = `<strong>Customer (#102)</strong> • Kathmandu 44600, Bagmati Province, Nepal`;
+                    } else if (countryCode === 'BD') {
+                        addrEl.innerHTML = `<strong>Customer (#102)</strong> • Gulshan-2, Dhaka 1212, Bangladesh`;
+                    } else if (countryCode === 'AE') {
+                        addrEl.innerHTML = `<strong>Customer (#102)</strong> • Downtown Dubai, Sheikh Zayed Rd, UAE`;
+                    } else if (countryCode === 'US') {
+                        addrEl.innerHTML = `<strong>Customer (#102)</strong> • 450 Serra Mall, Stanford, CA 94305, USA`;
+                    } else {
+                        addrEl.innerHTML = `<strong>Customer (#102)</strong>, 742 Evergreen Heights, Cyber City, Bangalore, 560001`;
+                    }
+                }
+
+                // Re-render payment method list for this country
+                renderCountryPaymentMethods(countryCode);
+            }
+
+            function renderCountryPaymentMethods(countryCode) {
+                const config = COUNTRY_PAYMENT_CONFIG[countryCode] || COUNTRY_PAYMENT_CONFIG.IN;
+                const container = document.getElementById('dynamicPaymentOptionsContainer');
+                container.innerHTML = '';
+
+                // Default to first method of the selected country
+                STATE.selectedPaymentMethod = config.methods[0].id;
+
+                config.methods.forEach((m, idx) => {
+                    const isChecked = idx === 0;
+                    const label = document.createElement('label');
+                    label.className = `flex items-start space-x-3 p-2.5 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer transition ${isChecked ? 'bg-amber-50/60 border-amber-400' : ''}`;
+
+                    label.innerHTML = `
+          <input type="radio" name="paymentMethod" value="${m.id}" ${isChecked ? 'checked' : ''} onchange="onSelectPaymentMethod('${m.id}')" class="mt-1 accent-amz-orange">
+          <div class="flex-1">
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-slate-900">${m.name}</span>
+              ${m.badge ? `<span class="${m.badgeColor || 'bg-slate-800 text-white'} text-[9px] px-1.5 py-0.2 rounded font-black tracking-tight">${m.badge}</span>` : ''}
+            </div>
+            <span class="text-[11px] text-slate-500">${m.desc}</span>
+          </div>
+        `;
+                    container.appendChild(label);
+                });
+
+                renderPaymentSubfield(STATE.selectedPaymentMethod);
+                updateCartUI();
+                refreshIcons();
+            }
+
+            function onSelectPaymentMethod(methodId) {
+                STATE.selectedPaymentMethod = methodId;
+
+                // Update active border highlight
+                document.querySelectorAll('#dynamicPaymentOptionsContainer label').forEach(lbl => {
+                    const radio = lbl.querySelector('input[type="radio"]');
+                    if (radio && radio.value === methodId) {
+                        lbl.classList.add('bg-amber-50/60', 'border-amber-400');
+                    } else {
+                        lbl.classList.remove('bg-amber-50/60', 'border-amber-400');
+                    }
+                });
+
+                renderPaymentSubfield(methodId);
+                updateCartUI();
+            }
+
+            function renderPaymentSubfield(methodId) {
+                const fieldBox = document.getElementById('paymentInputSubfield');
+                const countryConfig = COUNTRY_PAYMENT_CONFIG[STATE.currentCountry] || COUNTRY_PAYMENT_CONFIG.IN;
+                const method = countryConfig.methods.find(m => m.id === methodId);
+
+                if (!method) {
+                    fieldBox.classList.add('hidden');
+                    return;
+                }
+
+                if (method.isCard) {
+                    fieldBox.classList.remove('hidden');
+                    fieldBox.innerHTML = `
+          <div class="space-y-2">
+            <span class="font-bold text-slate-800 text-[11px] block">Card Details (256-bit Encrypted):</span>
+            <input type="text" placeholder="Card number (4242 •••• •••• 4242)" value="4532 •••• •••• 8819" class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded font-mono-code focus:outline-none focus:border-amz-orange">
+            <div class="grid grid-cols-2 gap-2">
+              <input type="text" placeholder="MM/YY" value="12/28" class="px-3 py-1.5 text-xs border border-slate-300 rounded font-mono-code">
+              <input type="password" placeholder="CVV" value="842" class="px-3 py-1.5 text-xs border border-slate-300 rounded font-mono-code">
+            </div>
+          </div>
+        `;
+                } else if (method.placeholder) {
+                    fieldBox.classList.remove('hidden');
+                    fieldBox.innerHTML = `
+          <div class="space-y-1">
+            <label class="font-bold text-slate-800 text-[11px] block">${method.name} Account ID:</label>
+            <input type="text" placeholder="${method.placeholder}" value="${method.defaultValue || ''}" class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded font-mono-code focus:outline-none focus:border-amz-orange">
+          </div>
+        `;
+                } else {
+                    fieldBox.classList.add('hidden');
+                }
+            }
+
+            function handleRegister(e) {
+                e.preventDefault();
+                const name = document.getElementById('regName').value.trim();
+                const email = document.getElementById('regEmail').value.trim();
+                const countryCode = document.getElementById('regCountryCode').value;
+                const phone = document.getElementById('regPhone').value.trim();
+                const fullPhone = `${countryCode} ${phone}`;
+
+                const user = {
+                    id: Math.floor(1000 + Math.random() * 9000),
+                    name: name,
+                    email: email,
+                    phone: fullPhone,
+                    countryCode: countryCode
+                };
+
+                STATE.currentUser = user;
+
+                // Auto-set checkout country to match registration country code
+                const mappedCountry =
+                    countryCode === '+977' ? 'NP' :
+                        countryCode === '+880' ? 'BD' :
+                            countryCode === '+94'  ? 'LK' :
+                                countryCode === '+971' ? 'AE' :
+                                    countryCode === '+1'   ? 'US' :
+                                        countryCode === '+44'  ? 'GB' : 'IN';
+
+                const selectEl = document.getElementById('checkoutCountrySelect');
+                if (selectEl) {
+                    selectEl.value = mappedCountry;
+                    handleCountryChange(mappedCountry);
+                }
+
+                updateUserSessionUI();
+                closeAuthModal();
+                showToast(`Welcome ${name}! Account created (${email})`, "success");
+            }
+
+            function openCheckoutModal() {
+                if (STATE.cart.length === 0) {
+                    showToast("Cart is empty!", "warning");
+                    return;
+                }
+                toggleCartDrawer(false);
+                const m = document.getElementById('checkoutModalBackdrop');
+                m.classList.remove('hidden');
+                setTimeout(() => m.classList.remove('opacity-0'), 10);
+
+                // Ensure payment methods for currently selected country are displayed
+                const currentC = document.getElementById('checkoutCountrySelect') ? document.getElementById('checkoutCountrySelect').value : 'IN';
+                handleCountryChange(currentC);
+                refreshIcons();
+            }
+
+            function addToCart(productId) {
+                const product = STATE.products.find(p => p.id === productId);
+                if (!product || product.stock <= 0) {
+                    showToast("Item out of stock!", "error");
+                    return;
+                }
+
+                const existing = STATE.cart.find(c => c.productId === productId);
+                if (existing) {
+                    if (existing.quantity >= product.stock) {
+                        showToast(`Maximum stock limit reached for ${product.name}`, "warning");
+                        return;
+                    }
+                    existing.quantity += 1;
+                } else {
+                    STATE.cart.push({ productId, quantity: 1 });
+                }
+
+                updateCartUI();
+                showToast(`Added to Cart: ${product.name}`, "success");
+            }
+
+            function instantBuyNow(productId) {
+                const product = STATE.products.find(p => p.id === productId);
+                if (!product || product.stock <= 0) {
+                    showToast("Product out of stock!", "error");
+                    return;
+                }
+
+                const existing = STATE.cart.find(c => c.productId === productId);
+                if (!existing) {
+                    STATE.cart.push({ productId, quantity: 1 });
+                }
+
+                updateCartUI();
+                openCheckoutModal();
+            }
+
+            function toggleCartDrawer(open) {
+                const drawer = document.getElementById('cartDrawer');
+                const backdrop = document.getElementById('cartDrawerBackdrop');
+
+                if (open) {
+                    backdrop.classList.remove('hidden');
+                    setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                    drawer.classList.remove('translate-x-full');
+                } else {
+                    backdrop.classList.add('opacity-0');
+                    drawer.classList.add('translate-x-full');
+                    setTimeout(() => backdrop.classList.add('hidden'), 300);
+                }
+            }
+
+            function updateCartQuantity(productId, delta) {
+                const itemIndex = STATE.cart.findIndex(c => c.productId === productId);
+                if (itemIndex === -1) return;
+
+                const product = STATE.products.find(p => p.id === productId);
+                const nextQuantity = STATE.cart[itemIndex].quantity + delta;
+
+                if (nextQuantity <= 0) {
+                    STATE.cart.splice(itemIndex, 1);
+                } else {
+                    if (product && nextQuantity > product.stock) {
+                        showToast(`Only ${product.stock} items in stock!`, "warning");
+                        return;
+                    }
+                    STATE.cart[itemIndex].quantity = nextQuantity;
+                }
+
+                updateCartUI();
+            }
+
+            function removeCartItem(productId) {
+                STATE.cart = STATE.cart.filter(c => c.productId !== productId);
+                updateCartUI();
+                showToast("Item removed from cart", "info");
+            }
+
+            function calculateFinancials() {
+                let subtotal = 0;
+                STATE.cart.forEach(item => {
+                    const product = STATE.products.find(p => p.id === item.productId);
+                    if (product) subtotal += product.price * item.quantity;
+                });
+
+                let discount = 0;
+                let shipping = subtotal > 2000 || subtotal === 0 ? 0 : 149;
+
+                if (STATE.appliedCoupon) {
+                    if (STATE.appliedCoupon.type === 'percent') {
+                        discount = Math.min(5000, subtotal * (STATE.appliedCoupon.value / 100));
+                    } else if (STATE.appliedCoupon.type === 'fixed') {
+                        discount = Math.min(subtotal, STATE.appliedCoupon.value);
+                    } else if (STATE.appliedCoupon.type === 'shipping') {
+                        shipping = 0;
+                    }
+                }
+
+                if (STATE.selectedPaymentMethod === 'SWAGGER_PAY' && subtotal > 0) {
+                    discount += 250;
+                }
+
+                const total = Math.max(0, subtotal - discount + shipping);
+                return { subtotal, discount, shipping, total };
+            }
+
+            function updateCartUI() {
+                const count = STATE.cart.reduce((acc, curr) => acc + curr.quantity, 0);
+                document.getElementById('cartBadgeCount').innerText = count;
+
+                const container = document.getElementById('cartItemsContainer');
+                const { subtotal, discount, shipping, total } = calculateFinancials();
+
+                document.getElementById('cartSubtotal').innerText = formatINR(subtotal);
+                document.getElementById('cartDiscount').innerText = `-${formatINR(discount)}`;
+                document.getElementById('cartShippingFee').innerText = shipping === 0 ? "FREE" : formatINR(shipping);
+                document.getElementById('cartTotal').innerText = formatINR(total);
+                document.getElementById('checkoutTotalAmount').innerText = formatINR(total);
+
+                const threshold = 2000;
+                const progressPercent = Math.min(100, Math.round((subtotal / threshold) * 100));
+                document.getElementById('shippingProgressBar').style.width = `${progressPercent}%`;
+                document.getElementById('shippingBarPercent').innerText = `${progressPercent}%`;
+
+                const progressText = document.getElementById('shippingStatusText');
+                if (subtotal === 0) {
+                    progressText.innerText = `Add ${formatINR(threshold)} for FREE Delivery`;
+                } else if (subtotal >= threshold) {
+                    progressText.innerHTML = `<span class="text-emerald-700 font-bold">🎉 Your order qualifies for FREE Delivery!</span>`;
+                } else {
+                    progressText.innerText = `Add ${formatINR(threshold - subtotal)} more for FREE Delivery`;
+                }
+
+                if (STATE.cart.length === 0) {
+                    container.innerHTML = `
+          <div class="py-12 text-center text-slate-500">
+            <i data-lucide="shopping-bag" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+            <p class="font-bold text-slate-700 text-sm">Your Amazon Cart is empty</p>
+            <p class="text-xs text-slate-400 mt-1">Shop today's deals before stock runs out!</p>
+          </div>
+        `;
+                    document.getElementById('checkoutButton').disabled = true;
+                    document.getElementById('checkoutButton').classList.add('opacity-50', 'cursor-not-allowed');
+                    refreshIcons();
+                    return;
+                }
+
+                document.getElementById('checkoutButton').disabled = false;
+                document.getElementById('checkoutButton').classList.remove('opacity-50', 'cursor-not-allowed');
+
+                container.innerHTML = '';
+                STATE.cart.forEach(item => {
+                    const prod = STATE.products.find(p => p.id === item.productId);
+                    if (!prod) return;
+
+                    const row = document.createElement('div');
+                    row.className = "flex space-x-3 p-3 bg-white rounded border border-slate-200";
+                    row.innerHTML = `
+          <img src="${prod.image}" class="w-16 h-16 rounded object-cover border border-slate-200">
+          <div class="flex-1 min-w-0 text-xs">
+            <h4 class="font-bold text-slate-900 truncate">${prod.name}</h4>
+            <div class="text-slate-500 text-[11px]">Category: ${prod.categoryName}</div>
+            <div class="text-emerald-700 font-bold mt-0.5">${formatINR(prod.price)}</div>
+
+            <div class="flex items-center space-x-2 mt-2">
+              <button onclick="updateCartQuantity(${prod.id}, -1)" class="w-5 h-5 rounded bg-slate-200 text-slate-700 font-bold flex items-center justify-center">-</button>
+              <span class="font-bold">${item.quantity}</span>
+              <button onclick="updateCartQuantity(${prod.id}, 1)" class="w-5 h-5 rounded bg-slate-200 text-slate-700 font-bold flex items-center justify-center">+</button>
+              <button onclick="removeCartItem(${prod.id})" class="text-amz-link hover:underline ml-2 text-[11px]">Delete</button>
+            </div>
+          </div>
+        `;
+                    container.appendChild(row);
+                });
+
+                refreshIcons();
+            }
+
+            function applyCoupon() {
+                const code = document.getElementById('couponInput').value.trim().toUpperCase();
+                if (!code) return;
+
+                if (code === 'FESTIVE10') {
+                    STATE.appliedCoupon = { code: 'FESTIVE10', type: 'percent', value: 10 };
+                    showToast("Coupon Applied! 10% Off", "success");
+                } else if (code === 'FLASHLOCK500') {
+                    STATE.appliedCoupon = { code: 'FLASHLOCK500', type: 'fixed', value: 500 };
+                    showToast("Coupon Applied! ₹500 Discount", "success");
+                } else if (code === 'FREESHIP') {
+                    STATE.appliedCoupon = { code: 'FREESHIP', type: 'shipping', value: 0 };
+                    showToast("Coupon Applied! Free Delivery", "success");
+                } else {
+                    showToast("Invalid Coupon Code! Try FESTIVE10", "error");
+                    return;
+                }
+
+                document.getElementById('appliedPromoBanner').classList.remove('hidden');
+                document.getElementById('appliedPromoText').innerText = `PROMO: ${code} APPLIED`;
+                updateCartUI();
+            }
+
+            function removeCoupon() {
+                STATE.appliedCoupon = null;
+                document.getElementById('couponInput').value = '';
+                document.getElementById('appliedPromoBanner').classList.add('hidden');
+                updateCartUI();
+                showToast("Coupon removed", "info");
+            }
+
+            function copyAndApplyPromo(c) {
+                document.getElementById('couponInput').value = c;
+                applyCoupon();
+                closeOffersModal();
+                toggleCartDrawer(true);
+            }
+
+            function openOffersModal() {
+                const m = document.getElementById('offersModalBackdrop');
+                m.classList.remove('hidden');
+                setTimeout(() => m.classList.remove('opacity-0'), 10);
+                refreshIcons();
+            }
+
+            function closeOffersModal() {
+                const m = document.getElementById('offersModalBackdrop');
+                m.classList.add('opacity-0');
+                setTimeout(() => m.classList.add('hidden'), 300);
+            }
+
+            /* =========================================================
+             *  AUTHENTICATION
+             * ========================================================= */
+            function openAuthModal() {
+                const modal = document.getElementById('authModalBackdrop');
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                refreshIcons();
+            }
+
+            function closeAuthModal() {
+                const modal = document.getElementById('authModalBackdrop');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+
+            function switchAuthTab(tab) {
+                const signInTab = document.getElementById('tabSignInBtn');
+                const registerTab = document.getElementById('tabRegisterBtn');
+                const signInForm = document.getElementById('signInForm');
+                const registerForm = document.getElementById('registerForm');
+
+                if (tab === 'signin') {
+                    signInTab.className = "flex-1 py-3 text-center border-b-2 border-amz-orange bg-white text-slate-900 transition";
+                    registerTab.className = "flex-1 py-3 text-center text-slate-500 hover:text-slate-900 transition";
+                    signInForm.classList.remove('hidden');
+                    registerForm.classList.add('hidden');
+                } else {
+                    registerTab.className = "flex-1 py-3 text-center border-b-2 border-amz-orange bg-white text-slate-900 transition";
+                    signInTab.className = "flex-1 py-3 text-center text-slate-500 hover:text-slate-900 transition";
+                    registerForm.classList.remove('hidden');
+                    signInForm.classList.add('hidden');
+                }
+                refreshIcons();
+            }
+
+            function handleRegister(e) {
+                e.preventDefault();
+                const name = document.getElementById('regName').value.trim();
+                const email = document.getElementById('regEmail').value.trim();
+                const countryCode = document.getElementById('regCountryCode').value;
+                const phone = document.getElementById('regPhone').value.trim();
+                const fullPhone = `${countryCode} ${phone}`;
+
+                const user = {
+                    id: Math.floor(1000 + Math.random() * 9000),
+                    name: name,
+                    email: email,
+                    phone: fullPhone
+                };
+
+                STATE.currentUser = user;
+                updateUserSessionUI();
+                closeAuthModal();
+                showToast(`Welcome ${name}! Account created with ${email}`, "success");
+            }
+
+            function handleSignIn(e) {
+                e.preventDefault();
+                const identifier = document.getElementById('loginIdentifier').value.trim();
+                const name = identifier.includes('@') ? identifier.split('@')[0] : "Customer";
+
+                const user = {
+                    id: 102,
+                    name: name.charAt(0).toUpperCase() + name.slice(1),
+                    email: identifier.includes('@') ? identifier : `${identifier}@gmail.com`,
+                    phone: identifier.includes('@') ? '+91 9876543210' : identifier
+                };
+
+                STATE.currentUser = user;
+                updateUserSessionUI();
+                closeAuthModal();
+                showToast(`Welcome back, ${user.name}!`, "success");
+            }
+
+            function updateUserSessionUI() {
+                if (!STATE.currentUser) return;
+                document.getElementById('navAccountSubtext').innerText = `Hello, ${STATE.currentUser.name}`;
+                document.getElementById('navAccountTitle').innerHTML = `<span>Account & Lists</span><i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>`;
+
+                const addrEl = document.getElementById('checkoutUserAddressDisplay');
+                if (addrEl) {
+                    addrEl.innerHTML = `<strong>${STATE.currentUser.name} (#${STATE.currentUser.id})</strong> • ${STATE.currentUser.phone}<br>742 Evergreen Heights, Cyber City, Bangalore, 560001`;
+                }
+                refreshIcons();
+            }
+
+            /* =========================================================
+             *  CATEGORY NAVIGATION & PRODUCT RENDERING
+             * ========================================================= */
+            function renderCategoryStrip() {
+                const container = document.getElementById('categoryIconStrip');
+                const selectEl = document.getElementById('headerCategorySelect');
+                if (!container) return;
+
+                container.innerHTML = '';
+                if (selectEl) {
+                    selectEl.innerHTML = `<option value="all">All 1,000 Items</option>`;
+                }
+
+                // "All" filter pill
+                const allItem = document.createElement('button');
+                allItem.className = `flex flex-col items-center justify-center min-w-[70px] sm:min-w-[80px] p-2 rounded-lg hover:bg-slate-100 transition shrink-0 ${STATE.activeCategory === 'all' ? 'ring-2 ring-amz-orange bg-amber-50/60 font-bold' : ''}`;
+                allItem.onclick = () => setCategoryFilter('all');
+                allItem.innerHTML = `
+        <div class="w-10 h-10 rounded-full bg-slate-900 text-amz-yellow flex items-center justify-center mb-1 shadow-sm">
+          <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        </div>
+        <span class="text-[11px] text-slate-800 text-center leading-tight">All Items</span>
+      `;
+                container.appendChild(allItem);
+
+                // Render 25 categories
+                MASTER_CATEGORIES_DATA.forEach(cat => {
+                    if (selectEl) {
+                        const opt = document.createElement('option');
+                        opt.value = cat.id;
+                        opt.textContent = `${cat.name} (${cat.items.length})`;
+                        selectEl.appendChild(opt);
+                    }
+
+                    const btn = document.createElement('button');
+                    const isActive = STATE.activeCategory === cat.id;
+                    btn.className = `flex flex-col items-center justify-center min-w-[70px] sm:min-w-[80px] p-2 rounded-lg hover:bg-slate-100 transition shrink-0 ${isActive ? 'ring-2 ring-amz-orange bg-amber-50/60 font-bold' : ''}`;
+                    btn.onclick = () => setCategoryFilter(cat.id);
+                    btn.innerHTML = `
+          <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 flex items-center justify-center mb-1 shadow-sm overflow-hidden">
+            <i data-lucide="${cat.icon || 'box'}" class="w-5 h-5 text-slate-800"></i>
+          </div>
+          <span class="text-[11px] text-slate-800 text-center leading-tight truncate max-w-[75px]">${cat.name}</span>
+        `;
+                    container.appendChild(btn);
+                });
+
+                refreshIcons();
+            }
+
+            function setCategoryFilter(categoryId) {
+                STATE.activeCategory = categoryId;
+                STATE.visibleCount = 20;
+
+                const heading = document.getElementById('activeCategoryHeading');
+                const selectEl = document.getElementById('headerCategorySelect');
+                if (selectEl) selectEl.value = categoryId;
+
+                if (categoryId === 'all') {
+                    if (heading) heading.innerText = "All 1,000 Everyday Products";
+                } else if (categoryId === 'low') {
+                    if (heading) heading.innerText = "🔥 Lightning Deals (Under 10 Units Left)";
+                } else {
+                    const cat = MASTER_CATEGORIES_DATA.find(c => c.id === categoryId);
+                    if (heading) heading.innerText = cat ? `${cat.name} Collection (${cat.items.length} Products)` : "Products";
+                }
+
+                renderCategoryStrip();
+                renderProducts();
+            }
+
+            function handleSelectCategory(categoryId) {
+                setCategoryFilter(categoryId);
+            }
+
+            function handleSearch(query) {
+                STATE.searchQuery = query.trim().toLowerCase();
+                STATE.visibleCount = 20;
+                renderProducts();
+            }
+
+            function triggerSearchFocus() {
+                const el = document.getElementById('searchInput');
+                if (el) el.focus();
+            }
+
+            function handleSortChange(sortVal) {
+                STATE.sortBy = sortVal;
+                renderProducts();
+            }
+
+            function resetToHome() {
+                STATE.activeCategory = 'all';
+                STATE.searchQuery = '';
+                STATE.visibleCount = 20;
+                const input = document.getElementById('searchInput');
+                if (input) input.value = '';
+                const heading = document.getElementById('activeCategoryHeading');
+                if (heading) heading.innerText = "All 1,000 Everyday Products";
+                renderCategoryStrip();
+                renderProducts();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function getFilteredProducts() {
+                let list = [...STATE.products];
+
+                if (STATE.activeCategory === 'low') {
+                    list = list.filter(p => p.stock < 10);
+                } else if (STATE.activeCategory !== 'all') {
+                    list = list.filter(p => p.category === STATE.activeCategory);
+                }
+
+                if (STATE.searchQuery) {
+                    list = list.filter(p =>
+                        p.name.toLowerCase().includes(STATE.searchQuery) ||
+                        p.categoryName.toLowerCase().includes(STATE.searchQuery)
+                    );
+                }
+
+                if (STATE.sortBy === 'price-asc') {
+                    list.sort((a, b) => a.price - b.price);
+                } else if (STATE.sortBy === 'price-desc') {
+                    list.sort((a, b) => b.price - a.price);
+                } else if (STATE.sortBy === 'stock-low') {
+                    list.sort((a, b) => a.stock - b.stock);
+                }
+
+                return list;
+            }
+
+            function renderProducts() {
+                const container = document.getElementById('productGrid');
+                if (!container) return;
+                container.innerHTML = '';
+
+                const filtered = getFilteredProducts();
+                const visible = filtered.slice(0, STATE.visibleCount);
+
+                const matchedLabel = document.getElementById('matchedCountLabel');
+                if (matchedLabel) matchedLabel.innerText = visible.length;
+
+                const showingLabel = document.getElementById('showingItemsCount');
+                if (showingLabel) {
+                    showingLabel.innerText = `Showing ${visible.length} of ${filtered.length} products`;
+                }
+
+                const loadMoreBtn = document.getElementById('loadMoreBtn');
+                if (loadMoreBtn) {
+                    if (visible.length >= filtered.length) {
+                        loadMoreBtn.classList.add('hidden');
+                    } else {
+                        loadMoreBtn.classList.remove('hidden');
+                    }
+                }
+
+                if (visible.length === 0) {
+                    container.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white rounded-lg border border-slate-200 p-8 space-y-2">
+            <i data-lucide="package-search" class="w-10 h-10 text-slate-400 mx-auto"></i>
+            <h3 class="text-sm font-bold text-slate-800">No products found</h3>
+            <p class="text-xs text-slate-500">No products matched "${STATE.searchQuery}". Try selecting another category or clear the search.</p>
+            <button onclick="resetToHome()" class="px-4 py-1.5 mt-2 rounded bg-amz-yellow hover:bg-amz-btnHover font-bold text-xs text-slate-900">Show All 1,000 Products</button>
+          </div>
+        `;
+                    refreshIcons();
+                    return;
+                }
+
+                visible.forEach(p => {
+                    const discountPct = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
+                    const isDepleted = p.stock <= 0;
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-lg border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition p-3 space-y-2 group";
+
+                    card.innerHTML = `
+          <div>
+            <div class="relative bg-slate-100 rounded-md overflow-hidden aspect-square flex items-center justify-center mb-2">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x400/f1f3f6/1e293b?text=${encodeURIComponent(p.name)}'">
+
+              <div class="absolute top-1.5 left-1.5 flex flex-col gap-1">
+                ${p.isAssured ? `<span class="fk-assured-badge text-[9px] px-1 py-0.2 rounded shadow">⚡ Assured</span>` : ''}
+                ${p.stock < 10 && !isDepleted ? `<span class="bg-red-600 text-white text-[9px] font-bold px-1 rounded">Only ${p.stock} left</span>` : ''}
+                ${isDepleted ? `<span class="bg-slate-800 text-white text-[9px] font-bold px-1 rounded">Out of Stock</span>` : ''}
+              </div>
+
+              <div class="absolute bottom-1 right-1 bg-black/70 text-amz-yellow text-[9px] font-mono px-1.5 py-0.2 rounded border border-amz-yellow/40">
+                v${p.version}
+              </div>
+            </div>
+
+            <div class="text-[11px] text-slate-400 font-medium">${p.categoryName}</div>
+            <h3 class="text-xs font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-amz-link transition" title="${p.name}">${p.name}</h3>
+
+            <div class="flex items-center space-x-1 mt-1 text-[11px]">
+              <span class="bg-emerald-700 text-white font-bold px-1.5 py-0.2 rounded flex items-center gap-0.5 text-[10px]">
+                ${p.rating} <i data-lucide="star" class="w-2.5 h-2.5 fill-white"></i>
+              </span>
+              <span class="text-slate-400">(${p.reviews.toLocaleString('en-IN')})</span>
+            </div>
+
+            <div class="mt-2">
+              <div class="flex items-baseline space-x-1.5">
+                <span class="text-sm sm:text-base font-extrabold text-slate-900">${formatINR(p.price)}</span>
+                <span class="text-[11px] text-slate-400 line-through">${formatINR(p.originalPrice)}</span>
+                <span class="text-[11px] font-bold text-emerald-700">${discountPct}% off</span>
+              </div>
+              <div class="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                <span class="text-amz-prime font-bold">prime</span>
+                <span>Tomorrow, by 11 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 pt-2 border-t border-slate-100">
+            <button
+              onclick="addToCart(${p.id})"
+              ${isDepleted ? 'disabled' : ''}
+              class="w-full py-1.5 rounded bg-amz-btn hover:bg-amz-btnHover border border-amber-500 text-slate-950 font-bold text-xs transition disabled:opacity-40 disabled:cursor-not-allowed">
+              Add to Cart
+            </button>
+            <button
+              onclick="instantBuyNow(${p.id})"
+              ${isDepleted ? 'disabled' : ''}
+              class="w-full py-1.5 rounded bg-amz-buyNow hover:bg-amz-buyNowHover border border-amber-600 text-slate-950 font-bold text-xs transition disabled:opacity-40 disabled:cursor-not-allowed">
+              Buy Now
+            </button>
+          </div>
+        `;
+
+                    container.appendChild(card);
+                });
+
+                refreshIcons();
+            }
+
+            function loadMoreProducts() {
+                STATE.visibleCount += 24;
+                renderProducts();
+            }
+
+            function openCheckoutModal() {
+                if (STATE.cart.length === 0) {
+                    showToast("Cart is empty!", "warning");
+                    return;
+                }
+                toggleCartDrawer(false);
+                const m = document.getElementById('checkoutModalBackdrop');
+                m.classList.remove('hidden');
+                setTimeout(() => m.classList.remove('opacity-0'), 10);
+                handlePaymentChange(STATE.selectedPaymentMethod);
+                refreshIcons();
+            }
+
+            function closeCheckoutModal() {
+                const m = document.getElementById('checkoutModalBackdrop');
+                m.classList.add('opacity-0');
+                setTimeout(() => m.classList.add('hidden'), 300);
+            }
+
+            function handlePaymentChange(method) {
+                STATE.selectedPaymentMethod = method;
+                document.getElementById('cardFields').classList.toggle('hidden', method !== 'CREDIT_CARD');
+                document.getElementById('upiField').classList.toggle('hidden', method !== 'UPI');
+                updateCartUI();
+                refreshIcons();
+            }
+
+            function processPaymentAndCheckout() {
+                const btn = document.getElementById('confirmPayBtn');
+                const btnText = document.getElementById('confirmPayBtnText');
+
+                for (const item of STATE.cart) {
+                    const prod = STATE.products.find(p => p.id === item.productId);
+                    if (!prod || prod.stock < item.quantity) {
+                        showToast(`Collision: ${prod ? prod.name : 'Item'} out of stock!`, "error");
+                        return;
+                    }
+                }
+
+                btn.disabled = true;
+                btnText.innerText = "Reserving stock via OCC (@Version lock)...";
+
+                setTimeout(() => {
+                    const financials = calculateFinancials();
+                    const purchased = STATE.cart.map(c => {
+                        const product = STATE.products.find(p => p.id === c.productId);
+                        product.stock -= c.quantity;
+                        product.version += 1;
+                        return {
+                            id: product.id,
+                            name: product.name,
+                            quantity: c.quantity,
+                            price: product.price,
+                            image: product.image
+                        };
+                    });
+
+                    const newOrder = {
+                        orderReceiptNumber: "OD" + Math.floor(100000000000 + Math.random() * 900000000000),
+                        userId: STATE.currentUser ? STATE.currentUser.id : 102,
+                        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        paymentMethod: STATE.selectedPaymentMethod,
+                        financials: financials,
+                        items: purchased,
+                        status: 'CONFIRMED'
+                    };
+
+                    STATE.orders.unshift(newOrder);
+                    document.getElementById('orderHistoryCount').innerText = STATE.orders.length;
+
+                    STATE.cart = [];
+                    updateCartUI();
+                    renderProducts();
+                    closeCheckoutModal();
+
+                    btn.disabled = false;
+                    btnText.innerText = "Place Your Order and Pay";
+
+                    displayReceipt(newOrder);
+                    showToast("Order placed successfully with Zero Overselling!", "success");
+                }, 700);
+            }
+
+            function displayReceipt(order) {
+                const modal = document.getElementById('receiptModalBackdrop');
+                const card = document.getElementById('receiptDetailsCard');
+
+                const itemsHtml = order.items.map(it => `
+        <div class="flex justify-between py-1 border-b border-slate-200">
+          <span>${it.quantity}x ${it.name}</span>
+          <span class="font-bold">${formatINR(it.quantity * it.price)}</span>
+        </div>
+      `).join('');
+
+                card.innerHTML = `
+        <div class="flex justify-between pb-1 border-b border-slate-200">
+          <span class="text-slate-500">Order ID:</span>
+          <span class="font-bold text-amz-link">${order.orderReceiptNumber}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">Payment Mode:</span>
+          <span class="font-bold">${order.paymentMethod}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-500">Delivery Guaranteed:</span>
+          <span class="text-emerald-700 font-bold">Tomorrow by 11 PM</span>
+        </div>
+        <div class="pt-2 text-slate-500">Items:</div>
+        <div class="pl-2 space-y-1">${itemsHtml}</div>
+        <div class="pt-2 flex justify-between font-bold text-sm text-slate-900 border-t border-slate-300">
+          <span>Total Paid:</span>
+          <span class="text-red-700">${formatINR(order.financials.total)}</span>
+        </div>
+      `;
+
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                refreshIcons();
+            }
+
+            function closeReceiptModal() {
+                const m = document.getElementById('receiptModalBackdrop');
+                m.classList.add('opacity-0');
+                setTimeout(() => m.classList.add('hidden'), 300);
+            }
+
+            function closeReceiptAndOpenOrders() {
+                closeReceiptModal();
+                setTimeout(() => toggleOrdersPanel(), 350);
+            }
+
+            function toggleOrdersPanel() {
+                const m = document.getElementById('ordersModalBackdrop');
+                if (m.classList.contains('hidden')) {
+                    renderOrders();
+                    m.classList.remove('hidden');
+                    setTimeout(() => m.classList.remove('opacity-0'), 10);
+                } else {
+                    m.classList.add('opacity-0');
+                    setTimeout(() => m.classList.add('hidden'), 300);
+                }
+                refreshIcons();
+            }
+
+            function renderOrders() {
+                const container = document.getElementById('ordersListContainer');
+                container.innerHTML = '';
+
+                if (STATE.orders.length === 0) {
+                    container.innerHTML = `
+          <div class="text-center py-12 text-slate-500">
+            <i data-lucide="package" class="w-10 h-10 mx-auto mb-2 text-slate-400"></i>
+            <p class="font-bold text-slate-700">You have no orders yet</p>
+          </div>
+        `;
+                    refreshIcons();
+                    return;
+                }
+
+                STATE.orders.forEach(order => {
+                    const isCancelled = order.status === 'CANCELLED';
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded border border-slate-200 text-xs space-y-3";
+
+                    const items = order.items.map(it => `
+          <div class="flex items-center space-x-3">
+            <img src="${it.image}" class="w-12 h-12 rounded object-cover border border-slate-200">
+            <div class="flex-1">
+              <span class="font-bold text-slate-800">${it.name}</span>
+              <span class="text-slate-500 block">Qty: ${it.quantity} &bull; ${formatINR(it.price)}</span>
+            </div>
+          </div>
+        `).join('');
+
+                    card.innerHTML = `
+          <div class="flex justify-between items-center border-b pb-2 text-[11px] text-slate-500">
+            <div>
+              <span>ORDER PLACED: <strong>${order.date}</strong></span>
+              <span class="ml-2">&bull; TOTAL: <strong class="text-slate-800">${formatINR(order.financials.total)}</strong></span>
+            </div>
+            <div>
+              <span class="px-2 py-0.5 rounded font-bold ${isCancelled ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
+                ${order.status}
+              </span>
+            </div>
+          </div>
+          <div class="space-y-2">${items}</div>
+          <div class="flex justify-between items-center pt-2 border-t text-slate-500 text-[11px]">
+            <span>Order ID: <strong>${order.orderReceiptNumber}</strong> (${order.paymentMethod})</span>
+            ${!isCancelled ? `
+              <button onclick="cancelOrder('${order.orderReceiptNumber}')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 px-3 py-1 rounded font-bold transition">
+                Cancel Order & Restock
+              </button>
+            ` : `
+              <span class="text-slate-400">Inventory returned to warehouse</span>
+            `}
+          </div>
+        `;
+                    container.appendChild(card);
+                });
+
+                refreshIcons();
+            }
+
+            function cancelOrder(id) {
+                const order = STATE.orders.find(o => o.orderReceiptNumber === id);
+                if (!order || order.status === 'CANCELLED') return;
+
+                order.items.forEach(it => {
+                    const prod = STATE.products.find(p => p.id === it.id);
+                    if (prod) {
+                        prod.stock += it.quantity;
+                        prod.version += 1;
+                    }
+                });
+
+                order.status = 'CANCELLED';
+                renderProducts();
+                renderOrders();
+                showToast(`Order ${id} cancelled. Stock restored to warehouse!`, "info");
+            }
+
+            function openAllCategoriesModal() {
+                setCategoryFilter('all');
+                window.scrollTo({ top: 120, behavior: 'smooth' });
+            }
+
+            function startTimer() {
+                let sec = 14 * 60 + 59;
+                setInterval(() => {
+                    if (sec <= 0) sec = 15 * 60;
+                    else sec--;
+                    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+                    const s = String(sec % 60).padStart(2, '0');
+                    const str = `Deal ends in: 00:${m}:${s}`;
+                    document.getElementById('headerTimer').innerText = str;
+                }, 1000);
+            }
+
+            function showToast(msg, type = "info") {
+                const c = document.getElementById('toastContainer');
+                const t = document.createElement('div');
+                const colors = {
+                    success: 'bg-emerald-800 text-white border-emerald-900',
+                    error: 'bg-red-800 text-white border-red-900',
+                    warning: 'bg-amber-700 text-white border-amber-800',
+                    info: 'bg-slate-900 text-white border-slate-700'
+                };
+
+                t.className = `pointer-events-auto flex items-center space-x-2 px-4 py-2.5 rounded-lg border shadow-xl text-xs font-medium transform transition-all duration-300 translate-y-3 opacity-0 ${colors[type] || colors.info}`;
+                t.innerHTML = `<span>${msg}</span>`;
+                c.appendChild(t);
+
+                setTimeout(() => t.classList.remove('translate-y-3', 'opacity-0'), 10);
+                setTimeout(() => {
+                    t.classList.add('opacity-0', 'translate-y-2');
+                    setTimeout(() => t.remove(), 300);
+                }, 3000);
+            }
+
+            window.onload = function() {
+                renderCategoryStrip();
+                renderProducts();
+                updateCartUI();
+                startTimer();
+                refreshIcons();
+            };
+        </script>
+</body>
+</html>
